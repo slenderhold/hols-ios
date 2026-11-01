@@ -1,0 +1,51 @@
+# XcodeGen spec: `xcodegen generate` creates Hols.xcodeproj (done automatically in CI, see .github/workflows/ios.yml)
+name: Hols
+options:
+  bundleIdPrefix: ru.holschat
+  deploymentTarget:
+    iOS: "15.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  Hols:
+    type: application
+    platform: iOS
+    sources:
+      - path: Hols
+    info:
+      path: Hols/Info.plist
+      properties:
+        CFBundleDisplayName: Hols
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSRequiresIPhoneOS: true
+        UILaunchScreen:
+          UIColorName: LaunchBackground
+        UIStatusBarStyle: UIStatusBarStyleLightContent
+        UIViewControllerBasedStatusBarAppearance: true
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UISupportedInterfaceOrientations~ipad: [UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UIBackgroundModes: [audio]
+        NSMicrophoneUsageDescription: "Микрофон нужен для звонков и голосовых сообщений в Hols."
+        NSCameraUsageDescription: "Камера нужна для видеозвонков и чтобы отправлять фото и видео в Hols."
+        NSPhotoLibraryUsageDescription: "Доступ к фото — чтобы отправлять их в чаты Hols."
+        NSPhotoLibraryAddUsageDescription: "Hols сохраняет фото из чатов в вашу галерею."
+        LSSupportsOpeningDocumentsInPlace: false
+        UIFileSharingEnabled: true
+        CFBundleURLTypes:
+          - CFBundleURLName: ru.holschat.app
+            CFBundleURLSchemes: [hols]
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: ru.holschat.app
+        PRODUCT_NAME: Hols
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        GENERATE_INFOPLIST_FILE: false
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_BITCODE: false
