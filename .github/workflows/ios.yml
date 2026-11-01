@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: macos-15
@@ -53,3 +56,14 @@ jobs:
         with:
           name: Hols-iOS
           path: Hols-*.ipa
+
+      - name: Publish to the «builds» branch and a release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=build-${{ github.run_number }}
+          gh release create "$TAG" Hols-*.ipa --title "Hols iOS ${{ github.run_number }}" --notes "Сборка ${{ github.sha }}" || true
+          git config user.name "github-actions"; git config user.email "actions@github.com"
+          mkdir -p /tmp/out && cp Hols-*.ipa /tmp/out/
+          git checkout --orphan builds && git rm -rqf . && cp /tmp/out/*.ipa . && git add *.ipa
+          git commit -qm "IPA $TAG" && git push -f origin builds
